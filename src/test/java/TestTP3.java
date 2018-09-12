@@ -34,9 +34,9 @@ public class TestTP3 {
         HomePage homePage = new HomePage(driver);
         homePage.rechercheAvecEntree("Bordeaux");
 
-        /*ResultsPage resultsPage = new ResultsPage();
-        Assert.assertThat(resultsPage.getResult(0), is("Site officiel de la ville de Bordeaux | Bordeaux"));
-        */
+        ResultsPage resultsPage = new ResultsPage(driver);
+        String result = resultsPage.getResult(0);
+        Assert.assertThat(result, is("Site officiel de la ville de Bordeaux | Bordeaux"));
     }
 
     @Test
@@ -45,8 +45,8 @@ public class TestTP3 {
         HomePage homePage = new HomePage(driver);
         homePage.rechercheAvecClick("Bordeaux");
 
-        /*ResultsPage resultsPage = new ResultsPage();
-        Assert.assertThat(resultsPage.getResult(0), is("Site officiel de la ville de Bordeaux | Bordeaux"));
-        */
+        ResultsPage resultsPage = new ResultsPage(driver);
+        String result = resultsPage.getResult(0);
+        Assert.assertThat(result, is("Site officiel de la ville de Bordeaux | Bordeaux"));
     }
 }
