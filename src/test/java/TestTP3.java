@@ -5,6 +5,7 @@ import org.junit.Test;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 
+import javax.xml.transform.Result;
 import java.util.concurrent.TimeUnit;
 
 import static org.hamcrest.core.Is.is;
@@ -31,22 +32,36 @@ public class TestTP3 {
     @Test
     public void testEnter()
     {
-        HomePage homePage = new HomePage(driver);
-        homePage.rechercheAvecEntree("Bordeaux");
+        // Arrange
+        String expectedResult = "Site officiel de la ville de Bordeaux | Bordeaux";
+        int resultNumber = 0;
 
-        ResultsPage resultsPage = new ResultsPage(driver);
-        String result = resultsPage.getResult(0);
-        Assert.assertThat(result, is("Site officiel de la ville de Bordeaux | Bordeaux"));
+        // Act
+        HomePage homePage = new HomePage(driver);
+        ResultsPage resultsPage = homePage.rechercheAvecEntree("Bordeaux");
+        String result = resultsPage.getResult(resultNumber);
+
+        // Assert
+        Assert.assertThat(result, is(expectedResult));
     }
 
     @Test
     public void testClick()
     {
         HomePage homePage = new HomePage(driver);
-        homePage.rechercheAvecClick("Bordeaux");
-
-        ResultsPage resultsPage = new ResultsPage(driver);
+        ResultsPage resultsPage = homePage.rechercheAvecClick("Bordeaux");
         String result = resultsPage.getResult(0);
+        Assert.assertThat(result, is("Site officiel de la ville de Bordeaux | Bordeaux"));
+    }
+
+    @Test
+    public void testClick2()
+    {
+        HomePage homePage = new HomePage(driver);
+
+        String result = homePage.rechercheAvecClick("Bordeaux")
+                                .getResult(0);
+
         Assert.assertThat(result, is("Site officiel de la ville de Bordeaux | Bordeaux"));
     }
 }
