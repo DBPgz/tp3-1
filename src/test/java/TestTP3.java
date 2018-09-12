@@ -5,6 +5,8 @@ import org.junit.Test;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 
+import java.util.concurrent.TimeUnit;
+
 import static org.hamcrest.core.Is.is;
 
 public class TestTP3 {
@@ -17,6 +19,7 @@ public class TestTP3 {
         driver = new ChromeDriver();
         driver.get("https://www.google.com");
         driver.manage().window().maximize();
+        driver.manage().timeouts().implicitlyWait(5, TimeUnit.SECONDS);
     }
 
     @After
@@ -28,7 +31,7 @@ public class TestTP3 {
     @Test
     public void test1()
     {
-        HomePage homePage = new HomePage();
+        HomePage homePage = new HomePage(driver);
         homePage.recherche("Bordeaux");
 
         ResultsPage resultsPage = new ResultsPage();
