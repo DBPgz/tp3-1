@@ -2,8 +2,14 @@ import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
+import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.firefox.FirefoxDriver;
+import org.openqa.selenium.interactions.Actions;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
 
 import javax.xml.transform.Result;
 import java.util.concurrent.TimeUnit;
@@ -18,7 +24,7 @@ public class TestTP3 {
     public void setup()
     {
         driver = new ChromeDriver();
-        driver.get("https://www.google.com");
+        driver.get("https://www.amazon.com/");
         driver.manage().window().maximize();
         driver.manage().timeouts().implicitlyWait(5, TimeUnit.SECONDS);
     }
@@ -30,38 +36,17 @@ public class TestTP3 {
     }
 
     @Test
-    public void testEnter()
-    {
-        // Arrange
-        String expectedResult = "Site officiel de la ville de Bordeaux | Bordeaux";
-        int resultNumber = 0;
+    public void testEnter() throws InterruptedException {
+        Actions actions = new Actions(driver);
+        WebElement menu = driver.findElement(By.id("nav-link-accountList"));
+        actions.moveToElement(menu);
+        actions.perform();
 
-        // Act
-        HomePage homePage = new HomePage(driver);
-        ResultsPage resultsPage = homePage.rechercheAvecEntree("Bordeaux");
-        String result = resultsPage.getResult(resultNumber);
+        WebDriverWait wait = new WebDriverWait(driver, 10000);
+        wait.until(ExpectedConditions.visibilityOfElementLocated(By.id("nav-flyout-accountList")));
 
-        // Assert
-        Assert.assertThat(result, is(expectedResult));
-    }
+        driver.findElement(By.xpath("//*[@id=\"nav-al-your-account\"]/a[1]/span")).click();
 
-    @Test
-    public void testClick()
-    {
-        HomePage homePage = new HomePage(driver);
-        ResultsPage resultsPage = homePage.rechercheAvecClick("Bordeaux");
-        String result = resultsPage.getResult(0);
-        Assert.assertThat(result, is("Site officiel de la ville de Bordeaux | Bordeaux"));
-    }
-
-    @Test
-    public void testClick2()
-    {
-        HomePage homePage = new HomePage(driver);
-
-        String result = homePage.rechercheAvecClick("Bordeaux")
-                                .getResult(0);
-
-        Assert.assertThat(result, is("Site officiel de la ville de Bordeaux | Bordeaux"));
+        Thread.sleep(2000);
     }
 }
